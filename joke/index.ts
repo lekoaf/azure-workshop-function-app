@@ -33,6 +33,20 @@ const jokeOfTheDay = [
   "What is sticky and brown? A stick!",
 ];
 
+const setupDatabase = async () => {
+  const client = new CosmosClient(process.env["COSMOS_CONNECTION_STRING"]);
+
+  const { database } = await client.databases.createIfNotExists({
+    id: process.env["COSMOS_DB_NAME"],
+  });
+
+  const { container } = await database.containers.createIfNotExists({
+    id: process.env["COSMOS_CONTAINER_NAME"],
+  });
+
+  return container;
+};
+
 const httpTrigger: AzureFunction = async function (
   context: Context,
   req: HttpRequest
@@ -41,33 +55,30 @@ const httpTrigger: AzureFunction = async function (
 
   const joke = jokeOfTheDay[Math.floor(Math.random() * jokeOfTheDay.length)];
 
-  const client = new CosmosClient(process.env["COSMOS_CONNECTION_STRING"]);
+  const db = await setupDatabase();
 
-  const { database } = await client.databases.createIfNotExists({
-    id: process.env["COSMOS_DB_NAME"],
-  });
-
-  console.log(database.id);
-
-  const { container } = await database.containers.createIfNotExists({
-    id: process.env["COSMOS_CONTAINER_NAME"],
-  });
-
-  console.log(container.id);
-
-  /* const cities: Array<City> = [
+  const cities: Array<City> = [
     { id: "1", name: "Olympia", state: "WA", isCapitol: true },
     { id: "2", name: "Redmond", state: "WA", isCapitol: false },
     { id: "3", name: "Chicago", state: "IL", isCapitol: false },
   ];
 
   for (const city of cities) {
-    container.items.create(city);
-  } */
+    db.items.create(city);
+  }
 
-  const item1 = await container.item("1").read<City>();
+  const item1 = await db.item("1").read<City>();
 
   console.log("<<<< ITEM 1 >>>>>", item1.resource.name);
+
+  const { resources } = await db.items
+    .query<City>("SELECT * from c")
+    .fetchAll();
+
+  for (const city of resources) {
+    await db.item(city.id).delete();
+    console.log("Sucessfully deleted id", city.id);
+  }
 
   context.res = {
     status: 200,

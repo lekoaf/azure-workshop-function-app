@@ -1,5 +1,5 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
-import { CosmosClient } from "@azure/cosmos";
+import { Container, CosmosClient } from "@azure/cosmos";
 
 interface Response {
   status: number;
@@ -47,16 +47,7 @@ const setupDatabase = async () => {
   return container;
 };
 
-const httpTrigger: AzureFunction = async function (
-  context: Context,
-  req: HttpRequest
-): Promise<void> {
-  context.log.info("Hello from joke function!");
-
-  const joke = jokeOfTheDay[Math.floor(Math.random() * jokeOfTheDay.length)];
-
-  const db = await setupDatabase();
-
+const fiddleWithDb = async (db: Container) => {
   const cities: Array<City> = [
     { id: "1", name: "Olympia", state: "WA", isCapitol: true },
     { id: "2", name: "Redmond", state: "WA", isCapitol: false },
@@ -79,6 +70,18 @@ const httpTrigger: AzureFunction = async function (
     await db.item(city.id).delete();
     console.log("Sucessfully deleted id", city.id);
   }
+};
+
+const httpTrigger: AzureFunction = async function (
+  context: Context,
+  req: HttpRequest
+): Promise<void> {
+  context.log.info("Hello from joke function!");
+
+  const joke = jokeOfTheDay[Math.floor(Math.random() * jokeOfTheDay.length)];
+
+  const db = await setupDatabase();
+  await fiddleWithDb(db);
 
   context.res = {
     status: 200,

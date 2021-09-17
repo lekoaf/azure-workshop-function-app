@@ -1,6 +1,6 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 
-const jokeOfTheDay = "I invented a new work! Plagiarism!";
+const jokeOfTheDay = "I invented a new word! Plagiarism!";
 
 const httpTrigger: AzureFunction = async function (
   context: Context,

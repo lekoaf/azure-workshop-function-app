@@ -14,7 +14,7 @@ const httpTrigger: AzureFunction = async function (
   context: Context,
   req: HttpRequest
 ): Promise<void> {
-  context.log("Joke of the day.");
+  context.log.info("Hello from joke function!");
 
   context.res = {
     status: 200,

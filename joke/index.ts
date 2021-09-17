@@ -1,4 +1,5 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
+import { CosmosClient } from "@azure/cosmos";
 
 interface Response {
   status: number;
@@ -6,6 +7,13 @@ interface Response {
   headers?: {
     [key: string]: string;
   };
+}
+
+interface City {
+  id: string;
+  name: string;
+  state: string;
+  isCapitol: boolean;
 }
 
 const jokeOfTheDay = [
@@ -32,6 +40,34 @@ const httpTrigger: AzureFunction = async function (
   context.log.info("Hello from joke function!");
 
   const joke = jokeOfTheDay[Math.floor(Math.random() * jokeOfTheDay.length)];
+
+  const client = new CosmosClient(process.env["COSMOS_CONNECTION_STRING"]);
+
+  const { database } = await client.databases.createIfNotExists({
+    id: process.env["COSMOS_DB_NAME"],
+  });
+
+  console.log(database.id);
+
+  const { container } = await database.containers.createIfNotExists({
+    id: process.env["COSMOS_CONTAINER_NAME"],
+  });
+
+  console.log(container.id);
+
+  /* const cities: Array<City> = [
+    { id: "1", name: "Olympia", state: "WA", isCapitol: true },
+    { id: "2", name: "Redmond", state: "WA", isCapitol: false },
+    { id: "3", name: "Chicago", state: "IL", isCapitol: false },
+  ];
+
+  for (const city of cities) {
+    container.items.create(city);
+  } */
+
+  const item1 = await container.item("1").read<City>();
+
+  console.log("<<<< ITEM 1 >>>>>", item1.resource.name);
 
   context.res = {
     status: 200,

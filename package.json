@@ -12,7 +12,9 @@
   "dependencies": {
     "@azure/cosmos": "^3.14.1",
     "@azure/storage-blob": "^12.8.0",
+    "@types/sharp": "^0.29.2",
     "@types/uuid": "^8.3.1",
+    "sharp": "^0.29.1",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

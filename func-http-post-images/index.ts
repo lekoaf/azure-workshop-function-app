@@ -2,6 +2,7 @@ import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 import { BlobServiceClient } from "@azure/storage-blob";
 import { v4 } from "uuid";
 import { Response } from "../common";
+import * as sharp from "sharp";
 
 const httpTrigger: AzureFunction = async function (
   context: Context,
@@ -20,9 +21,19 @@ const httpTrigger: AzureFunction = async function (
 
   await client.uploadData(image);
 
+  const metadata = await sharp(image).metadata();
+
+  const { width, height, size, format } = metadata;
+
   const body = {
     id: uuid,
     uri,
+    metadata: {
+      width,
+      height,
+      size,
+      format,
+    },
   };
 
   context.bindings.imageDocument = body;

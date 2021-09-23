@@ -1,17 +1,5 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
-
-interface Image {
-  id: string;
-  uri: string;
-}
-
-interface Response {
-  status: number;
-  body?: unknown;
-  headers?: {
-    [key: string]: string;
-  };
-}
+import { Image, Response } from "../common/common";
 
 const httpTrigger: AzureFunction = async function (
   context: Context,

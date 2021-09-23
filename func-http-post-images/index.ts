@@ -1,21 +1,13 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 import { BlobServiceClient } from "@azure/storage-blob";
 import { v4 } from "uuid";
-
-interface Response {
-  status: number;
-  body?: unknown;
-  headers?: {
-    [key: string]: string;
-  };
-}
+import { Response } from "../common/common";
 
 const httpTrigger: AzureFunction = async function (
   context: Context,
   req: HttpRequest
 ): Promise<Response> {
   const uuid = v4();
-  context.log(typeof req.body);
   const image = req.body;
 
   const client = await BlobServiceClient.fromConnectionString(

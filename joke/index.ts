@@ -1,5 +1,5 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
-import { Response } from "../common/common";
+import { Response } from "../common";
 
 const jokeOfTheDay = [
   "I invented a new word! Plagiarism!",

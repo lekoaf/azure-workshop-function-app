@@ -1,5 +1,5 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
-import { Image, Response } from "../common/common";
+import { Image, Response } from "../common";
 
 const httpTrigger: AzureFunction = async function (
   context: Context,

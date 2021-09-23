@@ -1,0 +1,26 @@
+{
+  "bindings": [
+    {
+      "authLevel": "anonymous",
+      "type": "httpTrigger",
+      "direction": "in",
+      "name": "req",
+      "methods": ["post"],
+      "route": "images"
+    },
+    {
+      "type": "http",
+      "direction": "out",
+      "name": "$return"
+    },
+    {
+      "type": "cosmosDB",
+      "direction": "out",
+      "name": "imageDocument",
+      "databaseName": "martintk-test-db",
+      "collectionName": "image",
+      "connectionStringSetting": "COSMOS_CONNECTION_STRING"
+    }
+  ],
+  "scriptFile": "../dist/func-http-post-images/index.js"
+}

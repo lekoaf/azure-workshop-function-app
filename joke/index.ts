@@ -33,9 +33,6 @@ const httpTrigger: AzureFunction = async function (
 
   const joke = jokeOfTheDay[Math.floor(Math.random() * jokeOfTheDay.length)];
 
-  const db = await setupDatabase();
-  await fiddleWithDb(db);
-
   context.res = {
     status: 200,
     body: { text: joke },

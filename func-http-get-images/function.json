@@ -1,0 +1,27 @@
+{
+  "bindings": [
+    {
+      "authLevel": "anonymous",
+      "type": "httpTrigger",
+      "direction": "in",
+      "name": "req",
+      "methods": ["get"],
+      "route": "images"
+    },
+    {
+      "type": "http",
+      "direction": "out",
+      "name": "$return"
+    },
+    {
+      "type": "cosmosDB",
+      "direction": "in",
+      "name": "images",
+      "databaseName": "martintk-test-db",
+      "collectionName": "image",
+      "connectionStringSetting": "COSMOS_CONNECTION_STRING",
+      "sqlQuery": "SELECT c.id, c.uri FROM c"
+    }
+  ],
+  "scriptFile": "../dist/func-http-get-images/index.js"
+}

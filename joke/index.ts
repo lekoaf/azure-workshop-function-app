@@ -1,12 +1,5 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
-import { fiddleWithDb, setupDatabase } from "./db";
-interface Response {
-  status: number;
-  body?: unknown;
-  headers?: {
-    [key: string]: string;
-  };
-}
+import { Response } from "../common/common";
 
 const jokeOfTheDay = [
   "I invented a new word! Plagiarism!",
@@ -28,18 +21,18 @@ const jokeOfTheDay = [
 const httpTrigger: AzureFunction = async function (
   context: Context,
   req: HttpRequest
-): Promise<void> {
+): Promise<Response> {
   context.log.info("Hello from joke function!");
 
   const joke = jokeOfTheDay[Math.floor(Math.random() * jokeOfTheDay.length)];
 
-  context.res = {
+  return {
     status: 200,
     body: { text: joke },
     headers: {
       "Content-Type": "application/json",
     },
-  } as Response;
+  };
 };
 
 export default httpTrigger;

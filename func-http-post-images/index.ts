@@ -39,7 +39,7 @@ const httpTrigger: AzureFunction = async function (
   };
 
   context.bindings.imageDocument = body;
-  context.bindings.outputMessage = { id: uuid, uri: baseClient.url };
+  context.bindings.outputMessage = { ...body };
 
   return {
     status: 201, // Created

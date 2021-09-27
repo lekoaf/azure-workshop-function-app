@@ -17,6 +17,7 @@ const httpTrigger: AzureFunction = async function (
     body: {
       id: image.id,
       uri: image.uri,
+      thumbnail: image.thumbnail,
     },
   };
 };

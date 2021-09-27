@@ -20,6 +20,13 @@
       "databaseName": "martintk-test-db",
       "collectionName": "image",
       "connectionStringSetting": "COSMOS_CONNECTION_STRING"
+    },
+    {
+      "type": "serviceBus",
+      "direction": "out",
+      "connection": "martintkservicebus_SERVICEBUS",
+      "name": "outputMessage",
+      "queueName": "thumbnailqueue"
     }
   ],
   "scriptFile": "../dist/func-http-post-images/index.js"

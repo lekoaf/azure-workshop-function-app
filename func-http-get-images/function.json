@@ -20,7 +20,7 @@
       "databaseName": "martintk-test-db",
       "collectionName": "image",
       "connectionStringSetting": "COSMOS_CONNECTION_STRING",
-      "sqlQuery": "SELECT c.id, c.uri FROM c"
+      "sqlQuery": "SELECT c.id, c.uri, c.thumbnail FROM c"
     }
   ],
   "scriptFile": "../dist/func-http-get-images/index.js"

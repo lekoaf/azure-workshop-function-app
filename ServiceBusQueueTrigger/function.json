@@ -1,0 +1,45 @@
+{
+  "bindings": [
+    {
+      "name": "inputMessage",
+      "type": "serviceBusTrigger",
+      "direction": "in",
+      "queueName": "thumbnailqueue",
+      "connection": "martintkservicebus_SERVICEBUS"
+    },
+    {
+      "type": "cosmosDB",
+      "direction": "in",
+      "name": "inputDocument",
+      "databaseName": "martintk-test-db",
+      "collectionName": "image",
+      "connectionStringSetting": "COSMOS_CONNECTION_STRING",
+      "id": "{id}",
+      "partitionKey": "{id}"
+    },
+    {
+      "type": "blob",
+      "direction": "in",
+      "name": "inputBlob",
+      "path": "images/{id}.jpg",
+      "connection": "IMAGE_CONNECTION_STRING",
+      "dataType": "binary"
+    },
+    {
+      "type": "cosmosDB",
+      "direction": "out",
+      "name": "outputDocument",
+      "databaseName": "martintk-test-db",
+      "collectionName": "image",
+      "connectionStringSetting": "COSMOS_CONNECTION_STRING"
+    },
+    {
+      "type": "blob",
+      "direction": "out",
+      "name": "outputBlob",
+      "path": "thumbnails/{id}.jpg",
+      "connection": "IMAGE_CONNECTION_STRING"
+    }
+  ],
+  "scriptFile": "../dist/ServiceBusQueueTrigger/index.js"
+}

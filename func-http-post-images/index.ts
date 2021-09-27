@@ -11,9 +11,11 @@ const httpTrigger: AzureFunction = async function (
   const uuid = v4();
   const image = req.body;
 
-  const client = await BlobServiceClient.fromConnectionString(
+  const baseClient = await BlobServiceClient.fromConnectionString(
     process.env.IMAGE_CONNECTION_STRING
-  )
+  );
+
+  const client = baseClient
     .getContainerClient(process.env.IMAGE_CONTAINER_NAME)
     .getBlockBlobClient(`${uuid}.jpg`);
 
@@ -37,6 +39,7 @@ const httpTrigger: AzureFunction = async function (
   };
 
   context.bindings.imageDocument = body;
+  context.bindings.outputMessage = { id: uuid, uri: baseClient.url };
 
   return {
     status: 201, // Created

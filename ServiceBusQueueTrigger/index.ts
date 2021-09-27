@@ -1,6 +1,5 @@
 import { AzureFunction, Context } from "@azure/functions";
 import * as sharp from "sharp";
-import { Image } from "../common";
 interface Message {
   id: string;
   uri: string;

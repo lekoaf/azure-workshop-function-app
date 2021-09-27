@@ -7,4 +7,5 @@ Azure function apps for workshop
 - image by id
 - all images
 
-Connected through a CosmosDb
+Connected through a CosmosDb.
+Resize to thumbnail through a message queue.

@@ -1,5 +1,5 @@
 import { AzureFunction, Context } from "@azure/functions";
-import * as sharp from "sharp";
+/* import * as sharp from "sharp"; */
 import { Image } from "../common";
 
 const serviceBusQueueTrigger: AzureFunction = async function (
@@ -8,12 +8,12 @@ const serviceBusQueueTrigger: AzureFunction = async function (
 ): Promise<void> {
   context.log("ServiceBus queue: ", inputMessage);
 
-  const thumbnail = await sharp(context.bindings.inputBlob)
+  /* const thumbnail = await sharp(context.bindings.inputBlob)
     .resize(250)
     .jpeg()
-    .toBuffer();
+    .toBuffer(); */
 
-  context.bindings.outputBlob = thumbnail;
+  context.bindings.outputBlob = context.bindings.inputBlob;
 
   const { id } = inputMessage;
   const url = new URL(inputMessage.uri);

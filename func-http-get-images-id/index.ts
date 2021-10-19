@@ -19,6 +19,9 @@ const httpTrigger: AzureFunction = async function (
       uri: image.uri,
       thumbnail: image.thumbnail,
     },
+    headers: {
+      "content-type": "application/json",
+    },
   };
 };
 
